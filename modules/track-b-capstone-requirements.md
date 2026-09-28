@@ -93,6 +93,67 @@ acceptance criteria is in your capstone spec,
 - HorizontalPodAutoscaler for the backend: 1 to 3 pods at 70% CPU
 - Load test with scaling visible in Grafana
 
+## Integration and API Design
+
+Here's how every part of your Track B system talks to the others — who
+calls whom, over what, and how each call proves who it is.
+
+### Track B request and sync flow
+
+```mermaid
+sequenceDiagram
+    participant Dev as Learner (git push)
+    participant Git as GitLab repo
+    participant Argo as Argo CD
+    participant K8s as Kubernetes API
+    participant ESO as External Secrets Operator
+    participant SM as Secrets Manager / Parameter Store
+    participant LB as NLB + NGINX Ingress
+    participant Pod as backend Pod
+    participant RDS as RDS PostgreSQL
+    participant User as Evaluator browser
+
+    Dev->>Git: push Helm chart change
+    Argo->>Git: poll for changes (read-only deploy token)
+    Git-->>Argo: new commit
+    Argo->>K8s: apply Deployment / Service / Ingress / HPA
+    ESO->>SM: GetSecretValue / GetParameter (via IRSA)
+    SM-->>ESO: DB credentials, host and name
+    ESO->>K8s: write Secrets db-credentials and db-config
+    K8s->>Pod: start pod with the Secrets as env variables
+    User->>LB: GET /api/tasks (your /32)
+    LB->>Pod: /api routed to the backend Service
+    Pod->>RDS: SQL over TLS on 5432
+    RDS-->>Pod: rows
+    Pod-->>User: JSON response (via NGINX and the NLB)
+```
+
+| Integration | Protocol | How it authenticates | Module |
+|---|---|---|---|
+| Your laptop → AWS, EKS API | Terraform / AWS CLI / `kubectl` over HTTPS | Your sandbox credentials; API endpoint limited to your `/32` | M1, M9 |
+| Terraform Helm provider → EKS API | HTTPS | `aws eks get-token` | M11 |
+| Node → ECR | HTTPS image pull | Node IAM role | M9 |
+| ESO → Secrets Manager, Parameter Store | AWS APIs | IRSA role pinned to the `external-secrets` ServiceAccount | M10–M11 |
+| Argo CD → GitLab | Git over HTTPS (polling) | Read-only deploy token, created from your shell | M14 |
+| Argo CD → Kubernetes API | In-cluster | Argo CD's ServiceAccount | M14 |
+| Browser → NLB → NGINX Ingress | HTTP on port 80 | `loadBalancerSourceRanges`: your `/32` only | M13 |
+| NGINX Ingress → frontend / backend | HTTP on 80 / 3000 | In-cluster Services | M13 |
+| Backend pods → RDS | PostgreSQL on 5432, TLS | Security-group chain (node → RDS) + DB password from the ESO Secret | M11–M12 |
+| Prometheus, metrics-server, HPA → pods | In-cluster | Their own ServiceAccounts | M15 |
+| Browser → Grafana | HTTP host rule `grafana.dcta.test` on the same NLB | Grafana admin login (password created from your shell) | M15 |
+
+### App API
+
+Your load balancer exposes the same API the app used on Minikube:
+
+| Method | Path | What it does |
+|---|---|---|
+| `GET` | `/health` | Health check (not under `/api`) |
+| `GET` | `/api/tasks` | List all tasks |
+| `POST` | `/api/tasks` | Create a task |
+| `PUT` | `/api/tasks/:id` | Update a task |
+| `DELETE` | `/api/tasks/:id` | Delete a task |
+
 ## Getting Started
 
 1. Make sure your local-phase gitlab.com project, Helm chart and Argo CD

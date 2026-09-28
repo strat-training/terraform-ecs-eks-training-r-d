@@ -3,7 +3,8 @@
 ## What this repo is
 
 Curriculum source for **Containerization in AWS** (project code DCTA-AWS),
-Weeks 5–6 of the DevOps bootcamp. It continues `docs/devops-bootcamp`
+Weeks 5–6 of the DevOps bootcamp. It continues the local phase in
+[`devops-capstone-3tier-app`](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/tree/main)
 (Weeks 1–4, local Minikube + GitLab CI + Argo CD + observability) by taking
 the same 3-tier task app to AWS on one of two tracks:
 
@@ -24,14 +25,15 @@ this repo — Terraform/Helm/CI appears as snippets inside the docs.
 | Path | Audience | Purpose |
 |---|---|---|
 | `modules/shared-01-aws-foundation.md`, `modules/track-[a,b]-NN-*.md` | Trainees | Content packs (one per group of modules; the shared M1 pack serves both tracks) |
-| `modules/track-[a,b]-capstone-requirements.md` | Trainees | Capstone project brief per track (patterned on `docs/devops-bootcamp/.../docs/capstone-requirements.md`) |
+| `modules/track-[a,b]-capstone-requirements.md` | Trainees | Capstone project brief per track (patterned on [`docs/capstone-requirements.md`](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/blob/main/docs/capstone-requirements.md) in the reference repo) |
 | `capstone/*-cohort.md` | Trainees | Capstone spec — no solutions |
 | `capstone/*-instructor.md` | Instructors | Same spec + solution snippets + answers |
 | `capstone/capstone-grading-rubric.md` | Both | Weighted rubric + documentation gate |
 | `README.md` | Everyone | Repo overview, structure, quick start, timeline, evaluation |
 | `docs/arch-docs/` | Authors | ARCH v6.0 + ADRs (source of truth) |
 | `docs/curriculum/` | Authors | Original syllabus |
-| `docs/devops-bootcamp/` | Authors | Prerequisite phase + reference app |
+| [`devops-capstone-3tier-app`](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/tree/main) (GitHub) | Authors | Prerequisite phase + reference app (the original repo) |
+| `docs/materials/` | Instructors | Moodle page and quizzes |
 | `knowledge/` | Authors / agents | Patterns, rules, references, prompts |
 
 ## Authoring standards
@@ -61,7 +63,7 @@ this repo — Terraform/Helm/CI appears as snippets inside the docs.
   `graphify-out/` paths, internal ADR IDs, the program budget, or why the
   program chose one option over another (that lives in
   `knowledge/rules/arch-summary.md` and the instructor capstones).
-- Voice matches `docs/devops-bootcamp` (see coding standards).
+- Voice matches the local-phase guides in [`devops-capstone-3tier-app/docs`](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/tree/main/docs) (see coding standards).
 - No wrapper scripts: labs show explicit `terraform -chdir=infra/<stack> apply|destroy`.
 - Inline links only: `[Label](url)` — never `[Label]: url`.
 - Commands always in fenced code blocks.

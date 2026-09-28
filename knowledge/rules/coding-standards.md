@@ -83,9 +83,10 @@ provider "helm" {
 - Set `AWS_DEFAULT_REGION: ap-southeast-1` at pipeline level.
 - No vulnerability-scan stage (out of scope, ADR E004-02).
 
-## Prose — voice and readability (match `docs/devops-bootcamp`)
+## Prose — voice and readability (match the local-phase guides)
 
-Trainees came from the `docs/devops-bootcamp` guides; keep the same voice so
+Trainees came from the local-phase guides in
+[`devops-capstone-3tier-app/docs`](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/tree/main/docs); keep the same voice so
 the course feels continuous. Inside the required template sections:
 
 - Friendly second person: "In this pack we'll…", "You'll…", "Don't worry if…".

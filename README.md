@@ -36,6 +36,39 @@ graph TD
 Everything runs in `ap-southeast-1`, and every session follows the same
 routine: `terraform apply` at the start, `terraform destroy` at the end.
 
+### How It All Connects
+
+```mermaid
+sequenceDiagram
+    participant Dev as Learner
+    participant Git as GitLab
+    participant ECS as ECS (Track A)
+    participant EKS as EKS (Track B)
+    participant SM as Secrets Manager
+    participant App as App (frontend + backend)
+    participant RDS as RDS PostgreSQL
+    participant User as Browser
+
+    Dev->>Git: git push
+    alt Track A
+        Git->>ECS: CI pushes the image and deploys
+        ECS->>SM: get DB credentials
+        ECS->>App: start the new version
+    else Track B
+        EKS->>Git: Argo CD pulls the change
+        EKS->>SM: get DB credentials (External Secrets)
+        EKS->>App: start the new version
+    end
+    User->>App: HTTP request (through the load balancer)
+    App->>RDS: query over TLS
+    RDS-->>App: data
+    App-->>User: response
+```
+
+More detail for each track is in its capstone brief:
+[Track A](./modules/track-a-capstone-requirements.md) ·
+[Track B](./modules/track-b-capstone-requirements.md).
+
 ## Quick Start
 
 1. **Finish the local phase first.** You'll reuse your gitlab.com project,
@@ -88,7 +121,7 @@ helm version --short       # Track B
 ├── docs/                             # Source material (course authors)
 │   ├── arch-docs/                    # Architecture document + ADRs
 │   ├── curriculum/                   # Original syllabus
-│   ├── devops-bootcamp/              # Local phase: reference app + guides
+│   ├── materials/                    # Moodle page and quizzes
 │   └── template/                     # LMS templates
 │
 ├── knowledge/                        # Authoring rules, patterns, references
@@ -139,7 +172,7 @@ Reading) → **Hands-on lab** (guided) → **Lab exercise** (unguided) →
 - Track B: [capstone brief](./modules/track-b-capstone-requirements.md) ·
   [capstone spec](./capstone/capstone-track-b-eks-gitops-cohort.md)
 - [Capstone Grading Rubric](./capstone/capstone-grading-rubric.md)
-- [Local phase guides](./docs/devops-bootcamp/devops-capstone-3tier-app/docs/README.md)
+- [Local phase guides](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/blob/main/docs/README.md) and [reference app](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/tree/main) (`devops-capstone-3tier-app`)
 
 ## Timeline
 

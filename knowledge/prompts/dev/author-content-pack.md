@@ -20,7 +20,7 @@ Mapping:
 
 Must:
 - The pack is the learner copy: no "Program decision" callouts, no syllabus/deviation/approval talk, no budget figures. Record deviations only in knowledge/rules/arch-summary.md.
-- Match the docs/devops-bootcamp voice (see coding-standards.md "Prose — voice").
+- Match the voice of the local-phase guides (https://github.com/stratpoint-engineering/devops-capstone-3tier-app/tree/main/docs) — see coding-standards.md "Prose — voice".
 - Include at least one failure-path check in the Checkpoint.
 - No "WSL2 vs macOS" section; put any platform-specific tip inline where it is needed (lab step comment or troubleshooting row).
 - Never reference docs/, knowledge/, or ADR IDs in the output file.

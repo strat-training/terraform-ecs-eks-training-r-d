@@ -7,7 +7,8 @@ for curriculum content; the ARCH doc itself has not been re-versioned.
 
 ## Shape
 
-Self-paced 2-week continuation (Weeks 5–6) of `docs/devops-bootcamp`
+Self-paced 2-week continuation (Weeks 5–6) of the local phase in
+[`devops-capstone-3tier-app`](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/tree/main)
 (Weeks 1–4, local Minikube). Same reference app
 (`devops-capstone-3tier-app`: React + Node/Express + PostgreSQL), same
 gitlab.com project and pipeline. One shared module (M1), then learner picks

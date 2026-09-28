@@ -88,6 +88,67 @@ acceptance criteria is in your capstone spec,
 - Frontend allowed nothing
 - Proof with calls that AWS denies
 
+## Integration and API Design
+
+Here's how every part of your Track A system talks to the others — who
+calls whom, over what, and how each call proves who it is.
+
+### Track A deploy and request flow
+
+```mermaid
+sequenceDiagram
+    participant Dev as Learner (git push)
+    participant CI as GitLab CI
+    participant STS as AWS STS
+    participant ECR as ECR
+    participant ECS as ECS service
+    participant SM as Secrets Manager / Parameter Store
+    participant ALB as Application Load Balancer
+    participant BE as backend task
+    participant RDS as RDS PostgreSQL
+    participant User as Evaluator browser
+
+    Dev->>CI: push to main
+    CI->>STS: AssumeRoleWithWebIdentity (OIDC token)
+    STS-->>CI: temporary credentials (dcta-gitlab-ci)
+    CI->>ECR: push image tagged with the commit SHA
+    CI->>ECS: register task definition + update-service
+    ECS->>ECR: pull image (execution role)
+    ECS->>SM: fetch DB credentials, host and name (execution role)
+    ECS->>BE: start new (green) task with secrets injected
+    ECS->>ALB: register green task in the alternate target group
+    Note over ECS,ALB: test route first, then the production rule switches
+    User->>ALB: GET /api/tasks (your /32)
+    ALB->>BE: /api/* rule forwards to backend
+    BE->>RDS: SQL over TLS on 5432
+    RDS-->>BE: rows
+    BE-->>User: JSON response (via the ALB)
+```
+
+| Integration | Protocol | How it authenticates | Module |
+|---|---|---|---|
+| Your laptop → AWS | Terraform / AWS CLI over HTTPS | Your sandbox credentials | M1 |
+| GitLab CI → ECR, ECS | AWS APIs over HTTPS | GitLab OIDC token → `dcta-gitlab-ci` role (no keys); only from `main` | M4, M6 |
+| Browser → ALB | HTTP on port 80 | Security group: your `/32` only | M2–M3 |
+| ALB → frontend / backend | HTTP on 80 / 3000 | Security-group chain (ALB → app) | M2–M3 |
+| ECS → ECR, Secrets Manager, Parameter Store, CloudWatch | AWS APIs | Task execution role | M2, M5 |
+| Backend → RDS | PostgreSQL on 5432, TLS | Security-group chain (app → RDS) + DB password from Secrets Manager | M1–M2 |
+| Backend code → AWS | AWS APIs | Backend task role (own secret and parameters only) | M7 |
+| ECS → ALB listener rules (blue/green) | AWS APIs | ECS infrastructure role | M6 |
+| CloudWatch → Application Auto Scaling → ECS | AWS-managed | Managed by AWS | M5 |
+
+### App API
+
+Your load balancer exposes the same API the app used on Minikube:
+
+| Method | Path | What it does |
+|---|---|---|
+| `GET` | `/health` | Health check (not under `/api`) |
+| `GET` | `/api/tasks` | List all tasks |
+| `POST` | `/api/tasks` | Create a task |
+| `PUT` | `/api/tasks/:id` | Update a task |
+| `DELETE` | `/api/tasks/:id` | Delete a task |
+
 ## Getting Started
 
 1. Make sure your local-phase gitlab.com project and the Minikube
