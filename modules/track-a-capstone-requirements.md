@@ -217,7 +217,7 @@ terraform -chdir=infra/20-data destroy
   * Finish your capstone documentation
 
 - Day 5: Capstone Defense (M8)
-  * Run through the 15-minute demo
+  * Run through the 30-minute defense
   * Live defense and Q&A
   * Final `terraform destroy` and teardown check
 
@@ -292,7 +292,7 @@ that earns **Exemplary** on "Application of Trained Skills":
    - Teardown proof
    - Your daily apply/destroy order, explained in your own words
 
-3. **Presentation** (15 minutes, live)
+3. **Presentation** (30 minutes, live)
    - Live blue/green deployment triggered by a commit
    - Auto scaling under load in CloudWatch
    - Denied-call proof

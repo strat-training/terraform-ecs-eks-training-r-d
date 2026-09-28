@@ -111,7 +111,7 @@ Each requirement comes from one module's Lab exercise.
 
 **Defense and teardown (M8)**
 
-16. A live, 15-minute defense following the rubric's agenda, ending with
+16. A live, 30-minute defense following the rubric's agenda, ending with
     `terraform destroy` in reverse order and proof that no load balancer or
     NAT Gateway is left.
 
@@ -280,7 +280,7 @@ only.
 - [ ] 13. Logs in Terraform-managed groups (≤ 7 days); dashboard shows CPU and ALB metrics.
 - [ ] 14. Backend scaled 1 → 3 → 1 under load; I saw Spot and regular tasks.
 - [ ] 15. Task roles scoped; the probe's denied calls are denied.
-- [ ] 16. I can run the 15-minute defense and finish with a clean, verified teardown.
+- [ ] 16. I can run the 30-minute defense and finish with a clean, verified teardown.
 
 ## Project scope
 

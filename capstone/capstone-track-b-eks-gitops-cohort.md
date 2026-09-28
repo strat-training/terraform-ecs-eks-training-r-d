@@ -130,7 +130,7 @@ Each requirement comes from one module's Lab exercise.
 
 **Defense and teardown (M16)**
 
-19. A live, 15-minute defense following the rubric's agenda, including a
+19. A live, 30-minute defense following the rubric's agenda, including a
     **decision matrix** of at least 5 technical choices you made (see
     **Deliverable**).
 20. Teardown with `terraform destroy` in reverse order —

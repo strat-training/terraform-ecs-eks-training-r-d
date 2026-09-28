@@ -11,7 +11,7 @@ can read this before you start — there are no surprises on defense day.
 
 ```mermaid
 graph LR
-    A[Pre-demo review of your repo] --> B[Live demo - 15 minutes]
+    A[Pre-demo review of your repo] --> B[Live defense - 30 minutes]
     B --> C[Q&A and live troubleshooting]
     C --> D[Weighted score]
     A --> G[Documentation Gate: Met / Not Met]
@@ -103,28 +103,30 @@ prefix delegation; IRSA trust pinned to one ServiceAccount; ESO stores and
 source ranges and `wait = true`; Argo CD Applications with prune and
 self-heal; monitoring stack via Argo CD; HPA without a fixed `replicas`.
 
-### Functional Demonstration — live, 15 minutes
+### Functional Demonstration — live defense, 30 minutes
 
 **Track A agenda:**
 
-1. (2 min) Session start: `terraform apply` output for your stacks already
+1. (3 min) Session start: `terraform apply` output for your stacks already
    run; show the app working through the ALB.
-2. (5 min) Push a backend change → pipeline → blue/green: show the test
+2. (8 min) Push a backend change → pipeline → blue/green: show the test
    route, then the switch.
-3. (4 min) Load test → CloudWatch dashboard and scaling activity.
-4. (2 min) IAM probe: allowed vs. denied.
-5. (2 min) `terraform destroy` in reverse order, then show nothing is left.
+3. (5 min) Load test → CloudWatch dashboard and scaling activity.
+4. (3 min) IAM probe: allowed vs. denied.
+5. (3 min) `terraform destroy` in reverse order, then show nothing is left.
+6. (8 min) Q&A and a live destructive test (see below).
 
 **Track B agenda:**
 
-1. (2 min) Session start: cluster and platform applied; `kubectl apply -f
+1. (3 min) Session start: cluster and platform applied; `kubectl apply -f
    deploy/argocd/`; everything `Synced`/`Healthy`.
-2. (4 min) Push a change → Argo CD sync; then delete a Deployment and let
+2. (7 min) Push a change → Argo CD sync; then delete a Deployment and let
    self-heal restore it.
-3. (4 min) Load test → HPA events → Grafana graph.
-4. (3 min) Walk through your decision matrix.
-5. (2 min) `terraform destroy` in reverse order, then show no load balancer
-   is left.
+3. (5 min) Load test → HPA events → Grafana graph.
+4. (4 min) Walk through your decision matrix.
+5. (3 min) `terraform destroy` in reverse order — platform first, check no
+   load balancer is left, then the cluster.
+6. (8 min) Q&A and a live destructive test (see below).
 
 ### Live "destructive" tests (the facilitator picks one or two)
 

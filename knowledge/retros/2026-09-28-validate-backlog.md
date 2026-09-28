@@ -42,3 +42,14 @@ Deferred items from the `/validate` pass on the DCTA-AWS curriculum
 
 - `knowledge/rules/coding-standards.md` → CI section: **Every AWS resource is
   created by Terraform**; CI uses GitLab OIDC, never access keys.
+
+## /dev-tasks-planner on a curriculum repo (2026-09-28)
+
+- The command's "scaffolded code must exist" prerequisite can't be met here:
+  learners build in their own gitlab.com project, so there's no code to
+  reconcile STATUS against. With the user's approval it ran as a **learner
+  backlog**: `docs/dev-tasks/dcta-aws/track-{a,b}-tasks.csv`, every row
+  `To Do`, ROLE `DevOps`, estimates taken from each track's Two-Week Timeline
+  (10 days per track). Learners update STATUS in their own copy.
+- The defense is **30 minutes** (rubric agendas rescaled, Q&A slot added);
+  Track B keeps its Day 4 "rebuild from scratch" task.

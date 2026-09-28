@@ -160,7 +160,7 @@ it** (instructor-only). Solution snippets are in **Key engineering features**.
     `retention_in_days = 3`; dashboard given in M5 lab.
 14. **Scaling 1 → 3 at 70%; Spot mix visible (M5).** *Solution:* snippet **A-5**.
 15. **Scoped task roles; probe denials (M7).** *Solution:* snippet **A-7**.
-16. **15-minute defense, verified teardown (M8).** *Solution:* rubric
+16. **30-minute defense, verified teardown (M8).** *Solution:* rubric
     agenda; destroy `30-track-a` → `20-data`; `describe-load-balancers` → `0`.
 
 ## Deliverable
@@ -854,7 +854,7 @@ With expected answers:
 - [ ] 13. Logs — groups `/dcta/ecs/frontend|backend` with retention 3.
 - [ ] 14. Scaling — activities to 3 and back to 1.
 - [ ] 15. IAM — probe log as in **Validation & testing**.
-- [ ] 16. Defense — within 15 minutes; `describe-load-balancers` → `0`.
+- [ ] 16. Defense — within 30 minutes; `describe-load-balancers` → `0`.
 
 ## Project scope
 

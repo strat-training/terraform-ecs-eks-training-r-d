@@ -800,7 +800,7 @@ reference run before the cohort starts).
   entries must be updated and removed afterwards.
 - Self-heal reverts manual edits — expect learners to be surprised once.
 - HPA scale-down takes ~5 minutes after load stops (default stabilization
-  window); allow for it in the 15-minute defense.
+  window); allow for it in the 30-minute defense.
 
 ## Repository structure
 
