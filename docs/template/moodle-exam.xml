@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Node.js Readiness Exam — Moodle XML import format
+  Purpose: Pre-training diagnostic before starting Node.js Foundations Part 1
+  Duration: 30 minutes | 25 questions | Diagnostic only (not pass/fail)
+  Scoring tiers: 21-25 Highly Ready, 15-20 Ready, 10-14 Partially Ready, 0-9 Not Yet Ready
+-->
+<quiz>
+
+<question type="category">
+  <category><text>$course$/Node.js Readiness Exam</text></category>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: PROGRAMMING LOGIC & FUNDAMENTALS (7 questions)     -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>R01 — Variable Swap</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What is the output of this pseudocode?</p>
+<pre>x = 10
+y = 20
+x = y
+y = x
+print(x, y)</pre>]]></text></questiontext>
+  <answer fraction="100"><text>20, 20</text></answer>
+  <answer fraction="0"><text>10, 20</text></answer>
+  <answer fraction="0"><text>20, 10</text></answer>
+  <answer fraction="0"><text>10, 10</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R02 — Data Structures</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Which data structure follows the LIFO (Last In, First Out) principle?</p>]]></text></questiontext>
+  <answer fraction="100"><text>Stack</text></answer>
+  <answer fraction="0"><text>Queue</text></answer>
+  <answer fraction="0"><text>Array</text></answer>
+  <answer fraction="0"><text>Linked list</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R03 — Array Indexing</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Given the array <code>[5, 3, 8, 1, 9, 2]</code>, what is the value at index 3?</p>]]></text></questiontext>
+  <answer fraction="100"><text>1</text></answer>
+  <answer fraction="0"><text>5</text></answer>
+  <answer fraction="0"><text>8</text></answer>
+  <answer fraction="0"><text>3</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R04 — Loop with Break</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What does this loop print?</p>
+<pre>for (i = 0; i &lt; 5; i++) {
+  if (i === 3) break;
+  print(i);
+}</pre>]]></text></questiontext>
+  <answer fraction="100"><text>0 1 2</text></answer>
+  <answer fraction="0"><text>0 1 2 3 4</text></answer>
+  <answer fraction="0"><text>0 1 2 3</text></answer>
+  <answer fraction="0"><text>1 2 3</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R05 — Recursion</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What does <code>f(5)</code> return?</p>
+<pre>function f(n) {
+  if (n &lt;= 1) return 1;
+  return n * f(n - 1);
+}</pre>]]></text></questiontext>
+  <answer fraction="100"><text>120</text></answer>
+  <answer fraction="0"><text>5</text></answer>
+  <answer fraction="0"><text>15</text></answer>
+  <answer fraction="0"><text>25</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R06 — Hash Map Use Cases</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Which of the following is NOT a valid use case for a hash map (dictionary/object)?</p>]]></text></questiontext>
+  <answer fraction="100"><text>Maintaining elements in sorted order</text></answer>
+  <answer fraction="0"><text>Storing key-value pairs for fast lookup</text></answer>
+  <answer fraction="0"><text>Counting occurrences of items</text></answer>
+  <answer fraction="0"><text>Caching previously computed results</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R07 — Time Complexity</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What is the time complexity of searching for an element in an unsorted array of n elements?</p>]]></text></questiontext>
+  <answer fraction="100"><text>O(n)</text></answer>
+  <answer fraction="0"><text>O(1)</text></answer>
+  <answer fraction="0"><text>O(log n)</text></answer>
+  <answer fraction="0"><text>O(n²)</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: JAVASCRIPT BASICS (7 questions)                    -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>R08 — let vs const</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What is the difference between <code>let</code> and <code>const</code> in JavaScript?</p>]]></text></questiontext>
+  <answer fraction="100"><text>let can be reassigned; const cannot be reassigned</text></answer>
+  <answer fraction="0"><text>There is no difference</text></answer>
+  <answer fraction="0"><text>const is faster than let</text></answer>
+  <answer fraction="0"><text>let is block-scoped; const is function-scoped</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R09 — typeof null</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What is the output of:</p>
+<pre>console.log(typeof null);</pre>]]></text></questiontext>
+  <answer fraction="100"><text>"object"</text></answer>
+  <answer fraction="0"><text>"null"</text></answer>
+  <answer fraction="0"><text>"undefined"</text></answer>
+  <answer fraction="0"><text>"number"</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R10 — Array Filter</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What does this code output?</p>
+<pre>const arr = [1, 2, 3, 4, 5];
+const result = arr.filter(x =&gt; x % 2 === 0);
+console.log(result);</pre>]]></text></questiontext>
+  <answer fraction="100"><text>[2, 4]</text></answer>
+  <answer fraction="0"><text>[1, 3, 5]</text></answer>
+  <answer fraction="0"><text>[1, 2, 3, 4, 5]</text></answer>
+  <answer fraction="0"><text>[false, true, false, true, false]</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R11 — Type Coercion</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What does this expression evaluate to?</p>
+<pre>"5" + 3</pre>]]></text></questiontext>
+  <answer fraction="100"><text>"53"</text></answer>
+  <answer fraction="0"><text>8</text></answer>
+  <answer fraction="0"><text>NaN</text></answer>
+  <answer fraction="0"><text>"8"</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R12 — Object Literal Syntax</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Which of the following correctly creates a JavaScript object?</p>]]></text></questiontext>
+  <answer fraction="100"><text>const obj = { name: "Ana", age: 25 };</text></answer>
+  <answer fraction="0"><text>const obj = ( name: "Ana", age: 25 );</text></answer>
+  <answer fraction="0"><text>const obj = [ name: "Ana", age: 25 ];</text></answer>
+  <answer fraction="0"><text>const obj = &lt; name: "Ana", age: 25 &gt;;</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R13 — Array Reference</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What is the output?</p>
+<pre>const a = [1, 2, 3];
+const b = a;
+b.push(4);
+console.log(a.length);</pre>]]></text></questiontext>
+  <answer fraction="100"><text>4</text></answer>
+  <answer fraction="0"><text>3</text></answer>
+  <answer fraction="0"><text>undefined</text></answer>
+  <answer fraction="0"><text>Error</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R14 — Template Literals</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What does this arrow function return?</p>
+<pre>const greet = (name) =&gt; `Hello, ${name}!`;
+console.log(greet("World"));</pre>]]></text></questiontext>
+  <answer fraction="100"><text>Hello, World!</text></answer>
+  <answer fraction="0"><text>Hello, ${name}!</text></answer>
+  <answer fraction="0"><text>undefined</text></answer>
+  <answer fraction="0"><text>Error</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: WEB CONCEPTS (HTTP, REST, APIs) (6 questions)      -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>R15 — HTTP GET</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Which HTTP method is typically used to retrieve data from a server?</p>]]></text></questiontext>
+  <answer fraction="100"><text>GET</text></answer>
+  <answer fraction="0"><text>POST</text></answer>
+  <answer fraction="0"><text>PUT</text></answer>
+  <answer fraction="0"><text>DELETE</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R16 — 404 Status</text></name>
+  <questiontext format="html"><text><![CDATA[<p>In a RESTful API, what does a 404 status code indicate?</p>]]></text></questiontext>
+  <answer fraction="100"><text>The requested resource was not found</text></answer>
+  <answer fraction="0"><text>The request was successful</text></answer>
+  <answer fraction="0"><text>The server encountered an error</text></answer>
+  <answer fraction="0"><text>The user is not authorized</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R17 — Success Codes</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Which HTTP status code range indicates a successful response?</p>]]></text></questiontext>
+  <answer fraction="100"><text>200–299</text></answer>
+  <answer fraction="0"><text>100–199</text></answer>
+  <answer fraction="0"><text>300–399</text></answer>
+  <answer fraction="0"><text>400–499</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R18 — Purpose of REST</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What is the primary purpose of a REST API?</p>]]></text></questiontext>
+  <answer fraction="100"><text>To allow different software systems to communicate over HTTP</text></answer>
+  <answer fraction="0"><text>To style web pages</text></answer>
+  <answer fraction="0"><text>To store data in a database</text></answer>
+  <answer fraction="0"><text>To compile code on the server</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R19 — JSON Format</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Which data format is most commonly used in modern REST APIs for request and response bodies?</p>]]></text></questiontext>
+  <answer fraction="100"><text>JSON</text></answer>
+  <answer fraction="0"><text>XML</text></answer>
+  <answer fraction="0"><text>HTML</text></answer>
+  <answer fraction="0"><text>CSV</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R20 — PUT vs Others</text></name>
+  <questiontext format="html"><text><![CDATA[<p>In a REST API, which HTTP method would you use to update an existing resource?</p>]]></text></questiontext>
+  <answer fraction="100"><text>PUT</text></answer>
+  <answer fraction="0"><text>GET</text></answer>
+  <answer fraction="0"><text>POST</text></answer>
+  <answer fraction="0"><text>OPTIONS</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: DATABASE FUNDAMENTALS (5 questions)                -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>R21 — SELECT Statement</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Which SQL statement is used to retrieve data from a database table?</p>]]></text></questiontext>
+  <answer fraction="100"><text>SELECT</text></answer>
+  <answer fraction="0"><text>GET</text></answer>
+  <answer fraction="0"><text>FETCH</text></answer>
+  <answer fraction="0"><text>READ</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R22 — Primary Key</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What is a primary key in a database table?</p>]]></text></questiontext>
+  <answer fraction="100"><text>A unique identifier for each record in a table</text></answer>
+  <answer fraction="0"><text>The first column in any table</text></answer>
+  <answer fraction="0"><text>A password to access the database</text></answer>
+  <answer fraction="0"><text>The most frequently queried column</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R23 — NoSQL Databases</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Which of the following is a NoSQL database?</p>]]></text></questiontext>
+  <answer fraction="100"><text>MongoDB</text></answer>
+  <answer fraction="0"><text>MySQL</text></answer>
+  <answer fraction="0"><text>PostgreSQL</text></answer>
+  <answer fraction="0"><text>Oracle</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R24 — COUNT Query</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What does this SQL query return?</p>
+<pre>SELECT COUNT(*) FROM employees WHERE department = 'Engineering';</pre>]]></text></questiontext>
+  <answer fraction="100"><text>The number of employees in the Engineering department</text></answer>
+  <answer fraction="0"><text>All employee records</text></answer>
+  <answer fraction="0"><text>The names of employees in Engineering</text></answer>
+  <answer fraction="0"><text>The total number of departments</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>R25 — SQL JOIN</text></name>
+  <questiontext format="html"><text><![CDATA[<p>What is the purpose of a JOIN in SQL?</p>]]></text></questiontext>
+  <answer fraction="100"><text>To combine rows from two or more tables based on a related column</text></answer>
+  <answer fraction="0"><text>To delete records from multiple tables</text></answer>
+  <answer fraction="0"><text>To create a new table</text></answer>
+  <answer fraction="0"><text>To sort results alphabetically</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+</quiz>

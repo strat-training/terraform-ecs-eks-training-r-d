@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Containerization in AWS — Track B (EKS) Quiz — Moodle XML import format
+  Purpose: Nuance check after the shared foundation (M1) and Track B modules (M9–M15)
+  Duration: 25 minutes | 15 questions | Formative (not part of the capstone grade)
+  Coverage: 5 shared-foundation questions + 10 Track B questions
+-->
+<quiz>
+
+<question type="category">
+  <category><text>$course$/Containerization in AWS/Track B — EKS Quiz</text></category>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: SHARED AWS FOUNDATION (5 questions)                -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>CB01 — Why Public Subnets</text></name>
+  <questiontext format="html"><text><![CDATA[<p>The course VPC has <strong>no NAT Gateway</strong>. Your EKS node runs in a <strong>public</strong> subnet with a public IP, and only RDS sits in the private subnets. What is the main reason the node can't simply run in a private subnet?</p>]]></text></questiontext>
+  <answer fraction="100"><text>Without a NAT Gateway, nothing in a private subnet can reach ECR or AWS APIs, so the node couldn't pull images or join the cluster</text></answer>
+  <answer fraction="0"><text>EKS only supports worker nodes in public subnets</text></answer>
+  <answer fraction="0"><text>RDS only accepts connections from resources in public subnets</text></answer>
+  <answer fraction="0"><text>Private subnets are billed per hour, while public subnets are free</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CB02 — Security-Group Chaining</text></name>
+  <questiontext format="html"><text><![CDATA[<p><code>dcta-rds-sg</code> allows port <code>5432</code> from <strong><code>dcta-app-sg</code></strong> (which your EKS node wears) rather than from IP ranges. Given that the cluster and its node are re-created every session, what is the key benefit?</p>]]></text></questiontext>
+  <answer fraction="100"><text>The rule keeps working even though the node and pods get new IP addresses every session, and it only covers resources that wear the app security group</text></answer>
+  <answer fraction="0"><text>Security-group references are checked faster than IP ranges, so database queries are quicker</text></answer>
+  <answer fraction="0"><text>RDS does not support IP-range rules on port 5432</text></answer>
+  <answer fraction="0"><text>It lets the database be reached from the internet, but only by pods</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CB03 — Ephemeral Password</text></name>
+  <questiontext format="html"><text><![CDATA[<p>In <code>infra/20-data</code> you read the DB password with an <code>ephemeral "aws_secretsmanager_secret_version"</code> block. Which way of passing it to <code>aws_db_instance</code> works?</p>]]></text></questiontext>
+  <answer fraction="100"><text>password_wo (with password_wo_version) — ephemeral values may only go into write-only arguments, which are never saved to state</text></answer>
+  <answer fraction="0"><text>password — Terraform encrypts it automatically because it came from an ephemeral block</text></answer>
+  <answer fraction="0"><text>password with sensitive = true on the argument, which keeps it out of state</text></answer>
+  <answer fraction="0"><text>username — RDS reads the password from Secrets Manager once it knows the user</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CB04 — Refused Database Connection</text></name>
+  <questiontext format="html"><text><![CDATA[<p>On a fresh RDS for PostgreSQL 17 instance, the backend pod logs <code>no pg_hba.conf entry … no encryption</code>. The security groups are correct. What is the cause?</p>]]></text></questiontext>
+  <answer fraction="100"><text>RDS for PostgreSQL 15 and later require TLS by default (rds.force_ssl = 1), and the app is connecting without it</text></answer>
+  <answer fraction="0"><text>Port 5432 is blocked, so the connection falls back to an unencrypted port</text></answer>
+  <answer fraction="0"><text>The password synced by External Secrets doesn't match the database</text></answer>
+  <answer fraction="0"><text>The DB subnet group uses public subnets, which RDS refuses</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CB05 — exec format error</text></name>
+  <questiontext format="html"><text><![CDATA[<p>You built and pushed the backend image from an Apple Silicon Mac with a plain <code>docker build</code>. The pod pulls the image from ECR and then crashes immediately with <code>exec format error</code>. What went wrong?</p>]]></text></questiontext>
+  <answer fraction="100"><text>The image was built for arm64, but the node is amd64 — rebuild with --platform linux/amd64 and push a new tag</text></answer>
+  <answer fraction="0"><text>The start script in the image isn't executable — add chmod +x in the Dockerfile</text></answer>
+  <answer fraction="0"><text>The node's IAM role can't pull from ECR</text></answer>
+  <answer fraction="0"><text>The tag is immutable, so Kubernetes refused to overwrite the running container</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: EKS CLUSTER & IRSA (3 questions)                   -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>CB06 — Too Many Pods</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Your single <code>t3.medium</code> node reports a pod capacity of <strong>17</strong>, and new pods are stuck <code>Pending</code> with <em>Too many pods</em>. Which fix actually raises the limit to 110?</p>]]></text></questiontext>
+  <answer fraction="100"><text>Set ENABLE_PREFIX_DELEGATION=true on the VPC CNI add-on before the node group is created, then re-create the cluster stack so a new node joins with it on</text></answer>
+  <answer fraction="0"><text>Set ENABLE_PREFIX_DELEGATION=true on the running add-on — the existing node picks it up within a few minutes</text></answer>
+  <answer fraction="0"><text>Lower the HPA's maxReplicas so fewer pods are created</text></answer>
+  <answer fraction="0"><text>Give every pod smaller memory requests so more of them fit</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CB07 — Pinning the IRSA Trust</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Which trust-policy condition lets <strong>only</strong> the External Secrets Operator's ServiceAccount assume <code>dcta-eso-irsa</code>?</p>]]></text></questiontext>
+  <answer fraction="100"><text>StringEquals on &lt;issuer&gt;:sub = system:serviceaccount:external-secrets:external-secrets and on &lt;issuer&gt;:aud = sts.amazonaws.com</text></answer>
+  <answer fraction="0"><text>StringLike on &lt;issuer&gt;:sub = system:serviceaccount:*:* with aud = sts.amazonaws.com</text></answer>
+  <answer fraction="0"><text>StringEquals on &lt;issuer&gt;:aud = sts.amazonaws.com only</text></answer>
+  <answer fraction="0"><text>No condition — the ServiceAccount annotation already limits who can use the role</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CB08 — Annotation After the Pod</text></name>
+  <questiontext format="html"><text><![CDATA[<p>A test pod is already running with the <code>external-secrets</code> ServiceAccount. You <em>then</em> add the <code>eks.amazonaws.com/role-arn</code> annotation. The pod's AWS CLI still says <em>Unable to locate credentials</em>. Why?</p>]]></text></questiontext>
+  <answer fraction="100"><text>The role variables and token are only injected into pods created after the annotation — re-create the pod</text></answer>
+  <answer fraction="0"><text>IAM needs up to an hour to trust a newly annotated ServiceAccount</text></answer>
+  <answer fraction="0"><text>The cluster has no OIDC provider until the first annotated pod starts</text></answer>
+  <answer fraction="0"><text>The node's IAM role is blocking the pod's role</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: EXTERNAL SECRETS & HELM (2 questions)              -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>CB09 — Forbidden Secret</text></name>
+  <questiontext format="html"><text><![CDATA[<p>The <code>db-credentials</code> ExternalSecret has been syncing fine. You change its <code>remoteRef.key</code> to a secret the IRSA role <strong>can't</strong> read and apply it. What happens to the existing Kubernetes <code>Secret</code>?</p>]]></text></questiontext>
+  <answer fraction="100"><text>It keeps its current data; the ExternalSecret's status reports the access-denied error</text></answer>
+  <answer fraction="0"><text>ESO deletes it, because the Secret is owned by the ExternalSecret</text></answer>
+  <answer fraction="0"><text>ESO empties its keys so the app can't use stale credentials</text></answer>
+  <answer fraction="0"><text>ESO falls back to the node's IAM role and syncs the new secret anyway</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CB10 — Rotated but Still Old</text></name>
+  <questiontext format="html"><text><![CDATA[<p>The DB password is rotated in Secrets Manager. ESO refreshes, and <code>kubectl get secret db-credentials</code> shows the new value. The backend (which loads it with <code>envFrom</code>) still fails to log in. What's the fix?</p>]]></text></questiontext>
+  <answer fraction="100"><text>Restart the backend Deployment — pods only read environment variables when they start</text></answer>
+  <answer fraction="0"><text>Lower the ExternalSecret's refreshInterval</text></answer>
+  <answer fraction="0"><text>Restart the External Secrets Operator</text></answer>
+  <answer fraction="0"><text>Re-annotate the ServiceAccount so IRSA issues new credentials</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: INGRESS, GITOPS & TEARDOWN (3 questions)           -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>CB11 — Classic by Default</text></name>
+  <questiontext format="html"><text><![CDATA[<p>On EKS without any extra load balancer controller, you create a <code>Service</code> of <code>type: LoadBalancer</code> with no annotations. What does AWS create?</p>]]></text></questiontext>
+  <answer fraction="100"><text>A Classic Load Balancer — you need service.beta.kubernetes.io/aws-load-balancer-type: nlb to get an NLB</text></answer>
+  <answer fraction="0"><text>A Network Load Balancer, the default for LoadBalancer Services</text></answer>
+  <answer fraction="0"><text>An Application Load Balancer, because the Service speaks HTTP</text></answer>
+  <answer fraction="0"><text>Nothing — EKS can't create load balancers without the AWS Load Balancer Controller</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CB12 — A Second Host-less Ingress</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Your app's Ingress has no <code>host</code>. You add a second Ingress with no <code>host</code> for Grafana, on the same F5 NGINX Ingress Controller. What happens, and what's the fix?</p>]]></text></questiontext>
+  <answer fraction="100"><text>Only one host-less Ingress can be the default, so they collide (the older one wins) — give Grafana a host rule instead</text></answer>
+  <answer fraction="0"><text>NGINX merges both Ingresses' paths automatically — no fix needed</text></answer>
+  <answer fraction="0"><text>AWS creates a second NLB for the second Ingress</text></answer>
+  <answer fraction="0"><text>The newer Ingress always wins, so Grafana replaces the app</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CB13 — Wrong Teardown Order</text></name>
+  <questiontext format="html"><text><![CDATA[<p>You run <code>terraform destroy</code> on <code>40-track-b-cluster</code> <strong>before</strong> <code>41-track-b-platform</code>. What is the main risk?</p>]]></text></questiontext>
+  <answer fraction="100"><text>The NLB created by the ingress controller's Service can be left running outside Terraform, because the cluster that should delete it is gone</text></answer>
+  <answer fraction="0"><text>None — the NLB is in the cluster stack's Terraform state, so it's destroyed with the cluster</text></answer>
+  <answer fraction="0"><text>Argo CD re-creates the cluster from Git</text></answer>
+  <answer fraction="0"><text>RDS is deleted too, because it depends on the cluster's security group</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: OBSERVABILITY & HPA (2 questions)                  -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>CB14 — Why No replicas Field</text></name>
+  <questiontext format="html"><text><![CDATA[<p>When autoscaling is on, the backend Deployment template leaves out <code>replicas</code>. Argo CD has self-heal on. Why leave it out?</p>]]></text></questiontext>
+  <answer fraction="100"><text>Otherwise Argo CD keeps resetting the replica count to the value in Git, fighting the HPA</text></answer>
+  <answer fraction="0"><text>The HPA refuses to target a Deployment that has a replicas field</text></answer>
+  <answer fraction="0"><text>Kubernetes ignores replicas whenever an HPA exists, so the field is just noise</text></answer>
+  <answer fraction="0"><text>It saves a pod slot on the single node</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CB15 — Unknown Target</text></name>
+  <questiontext format="html"><text><![CDATA[<p>metrics-server is running and <code>kubectl top pods</code> works, but <code>kubectl get hpa</code> shows <code>TARGETS &lt;unknown&gt;/70%</code> for the backend. What is the most likely cause?</p>]]></text></questiontext>
+  <answer fraction="100"><text>The backend container has no CPU request, so the HPA has nothing to measure 70% against</text></answer>
+  <answer fraction="0"><text>Prometheus isn't installed, and the HPA reads its metrics from Prometheus</text></answer>
+  <answer fraction="0"><text>maxReplicas is set lower than the current replica count</text></answer>
+  <answer fraction="0"><text>The monitoring Application needs ServerSideApply=true</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+</quiz>

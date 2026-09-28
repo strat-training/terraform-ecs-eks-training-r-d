@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Containerization in AWS — Track A (ECS & Fargate) Quiz — Moodle XML import format
+  Purpose: Nuance check after the shared foundation (M1) and Track A modules (M2–M7)
+  Duration: 25 minutes | 15 questions | Formative (not part of the capstone grade)
+  Coverage: 5 shared-foundation questions + 10 Track A questions
+-->
+<quiz>
+
+<question type="category">
+  <category><text>$course$/Containerization in AWS/Track A — ECS &amp; Fargate Quiz</text></category>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: SHARED AWS FOUNDATION (5 questions)                -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>CA01 — Why Public Subnets</text></name>
+  <questiontext format="html"><text><![CDATA[<p>The course VPC has <strong>no NAT Gateway</strong>. Your containers run in the <strong>public</strong> subnets with public IPs, and only RDS sits in the private subnets. What is the main reason the containers can't simply run in the private subnets?</p>]]></text></questiontext>
+  <answer fraction="100"><text>Without a NAT Gateway, nothing in a private subnet can reach ECR or AWS APIs, so the containers couldn't pull their images</text></answer>
+  <answer fraction="0"><text>An Application Load Balancer can only send traffic to targets in public subnets</text></answer>
+  <answer fraction="0"><text>RDS only accepts connections from resources in public subnets</text></answer>
+  <answer fraction="0"><text>Private subnets are billed per hour, while public subnets are free</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CA02 — Security-Group Chaining</text></name>
+  <questiontext format="html"><text><![CDATA[<p><code>dcta-rds-sg</code> allows port <code>5432</code> from <strong><code>dcta-app-sg</code></strong> rather than from the app subnets' IP ranges. Given that you destroy and re-create your containers every session, what is the key benefit?</p>]]></text></questiontext>
+  <answer fraction="100"><text>The rule keeps working even though the containers get new IP addresses every session, and it only covers resources that wear the app security group</text></answer>
+  <answer fraction="0"><text>Security-group references are checked faster than IP ranges, so database queries are quicker</text></answer>
+  <answer fraction="0"><text>RDS does not support IP-range rules on port 5432</text></answer>
+  <answer fraction="0"><text>It lets the database be reached from the internet, but only by the app</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CA03 — Ephemeral Password</text></name>
+  <questiontext format="html"><text><![CDATA[<p>In <code>infra/20-data</code> you read the DB password with an <code>ephemeral "aws_secretsmanager_secret_version"</code> block. Which way of passing it to <code>aws_db_instance</code> works?</p>]]></text></questiontext>
+  <answer fraction="100"><text>password_wo (with password_wo_version) — ephemeral values may only go into write-only arguments, which are never saved to state</text></answer>
+  <answer fraction="0"><text>password — Terraform encrypts it automatically because it came from an ephemeral block</text></answer>
+  <answer fraction="0"><text>password with sensitive = true on the argument, which keeps it out of state</text></answer>
+  <answer fraction="0"><text>username — RDS reads the password from Secrets Manager once it knows the user</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CA04 — Refused Database Connection</text></name>
+  <questiontext format="html"><text><![CDATA[<p>On a fresh RDS for PostgreSQL 17 instance, the backend logs <code>no pg_hba.conf entry … no encryption</code>. The security groups are correct. What is the cause?</p>]]></text></questiontext>
+  <answer fraction="100"><text>RDS for PostgreSQL 15 and later require TLS by default (rds.force_ssl = 1), and the app is connecting without it</text></answer>
+  <answer fraction="0"><text>Port 5432 is blocked, so the connection falls back to an unencrypted port</text></answer>
+  <answer fraction="0"><text>The password in Secrets Manager doesn't match the database</text></answer>
+  <answer fraction="0"><text>The DB subnet group uses public subnets, which RDS refuses</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CA05 — exec format error</text></name>
+  <questiontext format="html"><text><![CDATA[<p>You built and pushed the backend image from an Apple Silicon Mac with a plain <code>docker build</code>. The image is in ECR, the task pulls it, and then stops immediately with <code>exec format error</code>. What went wrong?</p>]]></text></questiontext>
+  <answer fraction="100"><text>The image was built for arm64, but AWS runs it on amd64 — rebuild with --platform linux/amd64 and push a new tag</text></answer>
+  <answer fraction="0"><text>The start script in the image isn't executable — add chmod +x in the Dockerfile</text></answer>
+  <answer fraction="0"><text>The task execution role can't pull from ECR</text></answer>
+  <answer fraction="0"><text>The tag is immutable, so ECS refused to overwrite the running container</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: ECS ON FARGATE & ALB ROUTING (4 questions)         -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>CA06 — Where Did the 70/30 Go?</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Your backend service uses <code>FARGATE_SPOT</code> weight 7 and <code>FARGATE</code> weight 3, with <code>desired_count = 1</code>. <code>describe-tasks</code> shows a single <code>FARGATE_SPOT</code> task. What does this tell you?</p>]]></text></questiontext>
+  <answer fraction="100"><text>Nothing is wrong — one task is either Spot or not, so the 70/30 mix only becomes visible when the service runs more tasks</text></answer>
+  <answer fraction="0"><text>The strategy is broken — ECS should have split the task 70/30 between both providers</text></answer>
+  <answer fraction="0"><text>The weights must add up to 100 (70 and 30), so ECS ignored them</text></answer>
+  <answer fraction="0"><text>FARGATE_SPOT always wins until the account runs out of Spot capacity</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CA07 — Who Fetches the Password?</text></name>
+  <questiontext format="html"><text><![CDATA[<p>The backend's task definition gets <code>DB_PASSWORD</code> through its <code>secrets</code> block. The app code itself never calls AWS. Which IAM role actually reads the secret?</p>]]></text></questiontext>
+  <answer fraction="100"><text>The task execution role, used by ECS before your code starts</text></answer>
+  <answer fraction="0"><text>The backend's task role, because the variable ends up inside the backend container</text></answer>
+  <answer fraction="0"><text>The ECS infrastructure role for load balancers</text></answer>
+  <answer fraction="0"><text>The GitLab CI role, when it registers the task definition</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CA08 — /api Without a Slash</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Your listener has one rule, path pattern <code>/api/*</code> → backend, and a default action → frontend. Where does a request for exactly <code>/api</code> (no trailing slash) go?</p>]]></text></questiontext>
+  <answer fraction="100"><text>To the frontend, through the default action — /api/* doesn't match /api on its own</text></answer>
+  <answer fraction="0"><text>To the backend — the ALB adds the trailing slash before matching</text></answer>
+  <answer fraction="0"><text>Nowhere — the ALB returns 404 because no rule matched</text></answer>
+  <answer fraction="0"><text>To both target groups, split evenly</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CA09 — Backend at Zero</text></name>
+  <questiontext format="html"><text><![CDATA[<p>You scale <code>dcta-backend</code> to 0 tasks. The <code>/api/*</code> rule still exists. What does <code>GET /api/tasks</code> return?</p>]]></text></questiontext>
+  <answer fraction="100"><text>503 — the rule matched, but its target group has no targets</text></answer>
+  <answer fraction="0"><text>200 with the React page — the ALB falls back to the default action when a target group is empty</text></answer>
+  <answer fraction="0"><text>404 from the ALB, because the backend path no longer exists</text></answer>
+  <answer fraction="0"><text>A timeout, because the security group still allows the old task IP</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: CI/CD, OBSERVABILITY & AUTO SCALING (3 questions)  -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>CA10 — Terraform vs the Pipeline</text></name>
+  <questiontext format="html"><text><![CDATA[<p>GitLab CI has just deployed task definition revision 7 to <code>dcta-backend</code>. The service has <strong>no</strong> <code>lifecycle { ignore_changes = [task_definition] }</code>. You now run <code>terraform apply</code> on <code>30-track-a</code> for an unrelated change. What happens?</p>]]></text></questiontext>
+  <answer fraction="100"><text>Terraform points the service back at the revision it knows about, undoing the pipeline's deployment</text></answer>
+  <answer fraction="0"><text>Nothing — Terraform never looks at which revision a service is using</text></answer>
+  <answer fraction="0"><text>Terraform fails with a drift error and refuses to apply</text></answer>
+  <answer fraction="0"><text>Terraform adopts revision 7 as its own and keeps it</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CA11 — Keyless CI on a Feature Branch</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Your CI logs in to AWS with GitLab OIDC. The <code>dcta-gitlab-ci</code> role trusts <code>gitlab.com:sub = project_path:&lt;group&gt;/&lt;project&gt;:ref_type:branch:ref:main</code>. A job on the branch <code>feature/login</code> fails with <em>not authorized to perform sts:AssumeRoleWithWebIdentity</em>. Why?</p>]]></text></questiontext>
+  <answer fraction="100"><text>The job's token says it's from feature/login, and the role only trusts tokens from the main branch</text></answer>
+  <answer fraction="0"><text>The AWS access key stored in GitLab has expired</text></answer>
+  <answer fraction="0"><text>OIDC tokens only work in scheduled pipelines</text></answer>
+  <answer fraction="0"><text>The role's permissions don't include ecr:GetAuthorizationToken</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CA12 — Average, Not Maximum</text></name>
+  <questiontext format="html"><text><![CDATA[<p>The backend auto-scales on <code>ECSServiceAverageCPUUtilization</code> with a target of 70%. It's running 3 tasks at 90%, 20% and 20% CPU. What will auto scaling do?</p>]]></text></questiontext>
+  <answer fraction="100"><text>Not scale out — the service average is about 43%, below the 70% target</text></answer>
+  <answer fraction="0"><text>Scale out, because one task is above 70%</text></answer>
+  <answer fraction="0"><text>Replace the 90% task with a new one</text></answer>
+  <answer fraction="0"><text>Scale out to the maximum at once, because one task is 20 points over the target</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: BLUE/GREEN & IAM (3 questions)                     -->
+<!-- ============================================================ -->
+
+<question type="multichoice">
+  <name><text>CA13 — Circuit Breaker Under Load</text></name>
+  <questiontext format="html"><text><![CDATA[<p>The frontend uses rolling updates with minimum healthy 100%, maximum 200%, and the deployment circuit breaker with rollback. You push an image that crashes on start. What do users see?</p>]]></text></questiontext>
+  <answer fraction="100"><text>No errors — the old task keeps serving while the new ones fail, and ECS rolls back by itself</text></answer>
+  <answer fraction="0"><text>A short burst of 503s while ECS swaps the old task for the new one</text></answer>
+  <answer fraction="0"><text>Errors until someone rolls back by hand — the circuit breaker only sends an alert</text></answer>
+  <answer fraction="0"><text>The ALB sends traffic to the crashing task until its health check fails three times</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CA14 — Two Answers During a Deploy</text></name>
+  <questiontext format="html"><text><![CDATA[<p>During a blue/green deployment of the backend, <code>curl /api/tasks</code> returns the <strong>old</strong> version, but <code>curl -H 'X-Deploy-Stage: test' /api/tasks</code> returns the <strong>new</strong> one. Why?</p>]]></text></questiontext>
+  <answer fraction="100"><text>A higher-priority test rule matches the header and forwards to the alternate target group where the new tasks run; the production rule hasn't switched yet</text></answer>
+  <answer fraction="0"><text>The ALB caches the old response for requests without custom headers</text></answer>
+  <answer fraction="0"><text>Sticky sessions keep normal users on the old tasks until they log out</text></answer>
+  <answer fraction="0"><text>The header sends the request to a second load balancer that ECS created for the deployment</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+<question type="multichoice">
+  <name><text>CA15 — ignore_changes on Listener Rules</text></name>
+  <questiontext format="html"><text><![CDATA[<p>Both the production and test listener rules carry <code>lifecycle { ignore_changes = [action] }</code>. Why?</p>]]></text></questiontext>
+  <answer fraction="100"><text>ECS rewrites where the rules forward during blue/green deployments; without it, the next terraform apply would point traffic back at the old target group</text></answer>
+  <answer fraction="0"><text>The ALB API doesn't allow Terraform to update a rule's action after it's created</text></answer>
+  <answer fraction="0"><text>It lets you change rule priorities without recreating the rules</text></answer>
+  <answer fraction="0"><text>It stops Terraform from deleting the rules during terraform destroy</text></answer>
+  <shuffleanswers>1</shuffleanswers>
+  <single>true</single>
+  <defaultgrade>1</defaultgrade>
+</question>
+
+</quiz>
