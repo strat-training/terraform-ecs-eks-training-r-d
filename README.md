@@ -2,7 +2,7 @@
 
 This repository contains the **Containerization in AWS** phase of the
 DevOps Bootcamp. It picks up where the local phase
-([`docs/devops-bootcamp`](./docs/devops-bootcamp/devops-capstone-3tier-app/README.md))
+([`devops-bootcamp`](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/tree/main))
 left off: you take the same 3-tier task-manager app from Minikube to AWS,
 build everything with Terraform, and deploy it on one of two tracks.
 
