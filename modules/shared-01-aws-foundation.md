@@ -303,7 +303,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project     = "dcta-aws"
+      ProjectCode = "Terraform101-CloudIntern"
       Environment = "sandbox"
       Owner       = var.learner_id
       CostCenter  = "training"

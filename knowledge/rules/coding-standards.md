@@ -28,7 +28,7 @@ technical conventions.
   (`version = "6.66.0"`, not a range). Commit `.terraform.lock.hcl`.
 - Backend: `backend "s3" {}` with partial config from `infra/backend.hcl`
   and `use_lockfile = true`, `encrypt = true`. Never local state.
-- Provider `default_tags`: `Project = "dcta-aws"`, `Environment = "sandbox"`,
+- Provider `default_tags`: `ProjectCode = "Terraform101-CloudIntern"`, `Environment = "sandbox"`,
   `Owner = var.learner_id`, `CostCenter = "training"`, `ManagedBy = "terraform"`,
   `Stack = "<stack-dir>"`.
 - `region = "ap-southeast-1"` only — via variable default, never per-resource.
