@@ -81,7 +81,11 @@ More detail for each track is in its capstone brief:
    heading:
    - Track A: [`modules/track-a-capstone-requirements.md`](./modules/track-a-capstone-requirements.md)
    - Track B: [`modules/track-b-capstone-requirements.md`](./modules/track-b-capstone-requirements.md)
-5. **Work through your track's packs in order** (the numbers show the order).
+5. **Work through your track's packs in order** (the numbers show the order),
+   and track your progress in your track's task list — copy it and update
+   `STATUS` as you go:
+   - Track A: [`dev-tasks/dcta-aws/track-a-tasks.csv`](./dev-tasks/dcta-aws/track-a-tasks.csv)
+   - Track B: [`dev-tasks/dcta-aws/track-b-tasks.csv`](./dev-tasks/dcta-aws/track-b-tasks.csv)
 
 Tools you'll need: Terraform 1.11+, AWS CLI v2, Docker with `buildx`,
 `git`, `curl`, `jq` — plus `kubectl`, `helm` and `eksctl` for Track B.
@@ -110,6 +114,11 @@ helm version --short       # Track B
 │   ├── track-b-04-nginx-ingress-argocd.md           # M13–M14
 │   ├── track-b-05-observability-hpa.md              # M15
 │   └── track-b-capstone-requirements.md                          # Track B capstone brief
+│
+├── dev-tasks/                        # Learner task backlogs (CSV, one per track)
+│   └── dcta-aws/
+│       ├── track-a-tasks.csv                # M1 + Track A tasks, all start To Do
+│       └── track-b-tasks.csv                # M1 + Track B tasks, all start To Do
 │
 ├── capstone/                         # Capstone specs and grading
 │   ├── capstone-grading-rubric.md           # Weighted rubric (both tracks)
@@ -172,6 +181,8 @@ Reading) → **Hands-on lab** (guided) → **Lab exercise** (unguided) →
 - Track B: [capstone brief](./modules/track-b-capstone-requirements.md) ·
   [capstone spec](./capstone/capstone-track-b-eks-gitops-cohort.md)
 - [Capstone Grading Rubric](./capstone/capstone-grading-rubric.md)
+- Task backlogs: [Track A](./dev-tasks/dcta-aws/track-a-tasks.csv) ·
+  [Track B](./dev-tasks/dcta-aws/track-b-tasks.csv)
 - [Local phase guides](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/blob/main/docs/README.md) and [reference app](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/tree/main) (`devops-capstone-3tier-app`)
 
 ## Timeline
@@ -212,7 +223,8 @@ Plus a pass/fail **Technical Documentation Gate**: real evidence saved in
 - Read [`AGENTS.md`](./AGENTS.md) first — it lists the rules every
   learner-facing file follows.
 - Content structure: [`knowledge/patterns/module-content-structure.md`](./knowledge/patterns/module-content-structure.md)
-  and [`knowledge/patterns/capstone-documentation-template.md`](./knowledge/patterns/capstone-documentation-template.md).
+  [`knowledge/patterns/capstone-documentation-template.md`](./knowledge/patterns/capstone-documentation-template.md)
+  and [`knowledge/patterns/readme-content-structure.md`](./knowledge/patterns/readme-content-structure.md).
 - Technical conventions and writing voice: [`knowledge/rules/coding-standards.md`](./knowledge/rules/coding-standards.md).
 - Architecture decisions and how the course differs from the architecture
   document: [`knowledge/rules/arch-summary.md`](./knowledge/rules/arch-summary.md).

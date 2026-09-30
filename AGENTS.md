@@ -26,6 +26,7 @@ this repo — Terraform/Helm/CI appears as snippets inside the docs.
 |---|---|---|
 | `modules/shared-01-aws-foundation.md`, `modules/track-[a,b]-NN-*.md` | Trainees | Content packs (one per group of modules; the shared M1 pack serves both tracks) |
 | `modules/track-[a,b]-capstone-requirements.md` | Trainees | Capstone project brief per track (patterned on [`docs/capstone-requirements.md`](https://github.com/stratpoint-engineering/devops-capstone-3tier-app/blob/main/docs/capstone-requirements.md) in the reference repo) |
+| `dev-tasks/dcta-aws/track-[a,b]-tasks.csv` | Trainees | Learner task backlog per track (all rows start To Do; learners update STATUS in their copy) |
 | `capstone/*-cohort.md` | Trainees | Capstone spec — no solutions |
 | `capstone/*-instructor.md` | Instructors | Same spec + solution snippets + answers |
 | `capstone/capstone-grading-rubric.md` | Both | Weighted rubric + documentation gate |
@@ -38,8 +39,9 @@ this repo — Terraform/Helm/CI appears as snippets inside the docs.
 
 ## Authoring standards
 
-- Structure: `knowledge/patterns/module-content-structure.md` (content packs)
-  and `knowledge/patterns/capstone-documentation-template.md` (capstones).
+- Structure: `knowledge/patterns/module-content-structure.md` (content packs),
+  `knowledge/patterns/capstone-documentation-template.md` (capstones) and
+  `knowledge/patterns/readme-content-structure.md` (the root README).
 - Technical conventions: `knowledge/rules/coding-standards.md`.
 - Decisions and amendments to ARCH v6.0: `knowledge/rules/arch-summary.md`.
 - Sources: only URLs listed in `knowledge/references/aws-containers-sources.md`

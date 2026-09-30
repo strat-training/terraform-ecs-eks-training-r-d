@@ -48,7 +48,7 @@ Deferred items from the `/validate` pass on the DCTA-AWS curriculum
 - The command's "scaffolded code must exist" prerequisite can't be met here:
   learners build in their own gitlab.com project, so there's no code to
   reconcile STATUS against. With the user's approval it ran as a **learner
-  backlog**: `docs/dev-tasks/dcta-aws/track-{a,b}-tasks.csv`, every row
+  backlog**: `dev-tasks/dcta-aws/track-{a,b}-tasks.csv` (moved from `docs/dev-tasks/` to the repo root on 2026-09-30), every row
   `To Do`, ROLE `DevOps`, estimates taken from each track's Two-Week Timeline
   (10 days per track). Learners update STATUS in their own copy.
 - The defense is **30 minutes** (rubric agendas rescaled, Q&A slot added);
